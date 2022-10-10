@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,10 @@ import { SideNavComponent } from '@components/side-nav/side-nav.component';
 import { MainHeaderComponent } from '@components/main-header/main-header.component';
 import { RouterService } from '@services/router.service';
 import { SpinningLoaderComponent } from '@components/spinning-loader/spinning-loader.component';
+import { FormsApiService } from '@services/forms-api.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserStateInterceptor } from './interceptors/browser-state.interceptor';
+import { ApiHttpInterceptor } from './interceptors/api.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,6 +43,8 @@ import { SpinningLoaderComponent } from '@components/spinning-loader/spinning-lo
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    BrowserTransferStateModule,
+    HttpClientModule,
 
     // Material
     MatInputModule,
@@ -53,7 +59,20 @@ import { SpinningLoaderComponent } from '@components/spinning-loader/spinning-lo
 
     StoreModule.forRoot({}, {}),
   ],
-  providers: [RouterService],
+  providers: [
+    RouterService,
+    FormsApiService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BrowserStateInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiHttpInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

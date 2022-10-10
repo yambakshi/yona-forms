@@ -3,6 +3,8 @@ import { AfterViewChecked, Component, Inject, OnInit, PLATFORM_ID } from '@angul
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { pairwise, startWith } from 'rxjs/operators';
 import { Field } from '@models/field';
+import { FormsApiService } from '@services/forms-api.service';
+import { ApiResponse } from '@models/api-response';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
+        private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
     }
 
@@ -89,5 +92,11 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
     }
 
     onSubmit(): void {
+        if (this.editModeForm.invalid) return;
+        this.showLoader = true;
+        this.formsApiService.addForm(this.editModeForm.value.fields).subscribe((res: ApiResponse) => {
+            this.showLoader = false;
+            if (!res) return;
+        })
     }
 }

@@ -28,6 +28,7 @@
       "@components/*": ["app/components/*"],
       "@enums/*": ["app/enums/*"],
       "@models/*": ["app/models/*"],
+      "@environments/*": ["environments/*"]
     }
   },
   "angularCompilerOptions": {

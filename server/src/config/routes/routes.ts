@@ -1,12 +1,15 @@
 import { Router } from "express";
-// import {
-//     getPublishedRelease
-// } from '../../app/controllers';
+import {
+    getForms, createForm, updateForm, deleteForms
+} from '../../app/controllers';
 
 
 export const router = Router();
 
 // Releases
 
-// router.route('/published-release/:artistRouteName/:releaseRouteName?/:pageType?')
-//     .get(getPublishedRelease);
+router.route('/forms/:id?')
+    .get(getForms)
+    .put(createForm)
+    .post(updateForm)
+    .delete(deleteForms);
