@@ -1,18 +1,46 @@
 <div class="field-input-container" [formGroup]="fieldInputForm">
     <div class="field-input-fields-container">
-        <mat-form-field class="field-label-field" (keydown.enter)="$event.preventDefault()">
-            <mat-label>Field Label</mat-label>
-            <input matInput formControlName="label" type="text" maxLength="50" (input)="onInput('label')" required>
-            <mat-error *ngIf="f.label.errors && f.label.errors.required">Label is required</mat-error>
-            <mat-error *ngIf="f.label.errors && f.label.errors.maxlength">Label must be between 1-50 characters
-            </mat-error>
-        </mat-form-field>
+        <div class="field-input-fields">
+            <mat-form-field class="field-label-field" (keydown.enter)="$event.preventDefault()">
+                <mat-label>Field Label</mat-label>
+                <input matInput formControlName="label" type="text" maxLength="80" (input)="onInput('label')" required>
+                <mat-error *ngIf="f.label.errors && f.label.errors.required">Label is required</mat-error>
+                <mat-error *ngIf="f.label.errors && f.label.errors.maxlength">Label must be between 1-80 characters
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="field-type-field" appearance="fill">
+                <mat-label>Field Type</mat-label>
+                <mat-select formControlName="type" (selectionChange)="onSelectionChange($event)">
+                    <mat-option [value]="option.value" *ngFor="let option of fieldTypes">{{ option.viewValue }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field class="field-type-field" appearance="fill">
-            <mat-label>Field Type</mat-label>
-            <mat-select formControlName="type" (selectionChange)="onSelectionChange($event)">
-                <mat-option [value]="option.value" *ngFor="let option of fieldTypes">{{ option.viewValue }}</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="radio-button-options-container" [ngClass]="isRadioButton ? 'show-radio-button-options' : ''">
+            <h2>Options</h2>
+            <div class="radio-button-options" formArrayName="options">
+                <div *ngFor="let option of options.controls; let i = index"
+                    class="radio-button-options-fields-container"
+                    [ngClass]="optionsRange.max === options.length ? 'max-options-reached' : ''">
+
+                    <mat-form-field class="radio-button-option-field" (keydown.enter)="$event.preventDefault()">
+                        <mat-label>Field Option</mat-label>
+                        <input matInput [formControlName]="i" type="text" maxLength="80" required>
+                        <mat-error>Option is required</mat-error>
+                    </mat-form-field>
+
+                    <div class="remove-option-field-icon" (click)="removeFieldOption($event, i)"
+                        [ngClass]="isRemoveDisabled ? 'disabled' : ''">
+                        <mat-icon>delete</mat-icon>
+                    </div>
+
+                </div>
+            </div>
+
+            <h2 *ngIf="optionsRange.max > options.length" class="add-option-button" (click)="addOption()">
+                <mat-icon>add</mat-icon><span>Add Option</span>
+            </h2>
+        </div>
     </div>
 </div>

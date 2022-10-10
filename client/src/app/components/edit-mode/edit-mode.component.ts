@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewChecked, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { pairwise, pluck, startWith } from 'rxjs/operators';
+import { pairwise, startWith } from 'rxjs/operators';
 import { Field } from '@models/field';
 
 

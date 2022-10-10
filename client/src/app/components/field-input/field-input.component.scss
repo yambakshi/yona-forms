@@ -1,13 +1,83 @@
 .field-input-container {
     border: 1px solid #fff;
     padding: 25px 22px 10px;
+    background-color: #222;
 
     > .field-input-fields-container {
         display: flex;
+        flex-direction: column;
 
-        > .field-label-field {
-            flex: 1;
-            margin-right: 20px;
+        > .field-input-fields {
+            width: 100%;
+            display: flex;
+
+            > .field-label-field {
+                flex: 1;
+                margin-right: 20px;
+            }
+        }
+
+        > .radio-button-options-container {
+            display: none;
+
+            &.show-radio-button-options {
+                display: block;
+            }
+
+            > .radio-button-options {
+                > .radio-button-options-fields-container {
+                    display: flex;
+                    align-items: center;
+
+                    > .radio-button-option-field {
+                        flex: 1;
+                    }
+
+                    > .remove-option-field-icon {
+                        margin-left: 15px;
+                        user-select: none;
+                        color: rgba(255, 255, 255, 0.7);
+
+                        cursor: pointer;
+
+                        &:hover {
+                            color: rgba(255, 255, 255, 1);
+                        }
+
+                        &.disabled {
+                            cursor: default;
+                            color: #666;
+                        }
+
+                        > .mat-icon {
+                            display: flex;
+                        }
+                    }
+                }
+            }
+
+            > h2 {
+                margin: 0;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 16px;
+                color: rgba(255, 255, 255, 0.7);
+
+                cursor: pointer;
+
+                &:hover {
+                    color: rgba(255, 255, 255, 1);
+                }
+
+                > mat-icon {
+                    font-size: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
         }
     }
 }
