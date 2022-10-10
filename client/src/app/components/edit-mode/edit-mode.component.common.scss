@@ -2,14 +2,23 @@
     color: #fff;
     margin: auto;
     width: 768px;
+    height: 100%;
 
     > h1 {
         text-align: center;
-        margin: 15px 0;
+        padding: 15px 0;
+        margin: 0;
     }
 
     > form {
+        overflow: hidden;
+        position: relative;
+        height: calc(100% - 62px);
+
         > .edit-mode-form-body {
+            overflow: auto;
+            height: calc(100% - 70px);
+
             > .field-section-container {
                 > .field-header {
                     display: flex;
@@ -58,5 +67,61 @@
                 }
             }
         }
+
+        > .edit-mode-form-footer {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom: 0;
+            width: 768px;
+            height: 70px;
+            background-color: green;
+
+            > .loader-container {
+                position: absolute;
+                top: 50%;
+                left: 550px;
+                transform: translateY(-50%);
+                display: flex;
+
+                > spinning-loader {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+
+            > .save-button {
+                padding: 0;
+                width: 150px;
+                border: 1px white solid;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                & .save-button-content {
+                    display: flex;
+                    align-items: center;
+                    font-size: 25px;
+
+                    > mat-icon {
+                        font-size: 30px;
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+
+                & .save-button-content {
+                    > mat-icon {
+                        margin-right: -10px;
+                        margin-left: 5px;
+                    }
+                }
+            }
+        }
     }
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
 }

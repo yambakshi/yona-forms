@@ -1,6 +1,8 @@
+import { FieldType } from "@enums/field-type.enum";
+
 export class Field {
     label: string;
-    type: string;
+    type: FieldType = FieldType.Number;
     value: any;
 
     constructor(field?: Field) {

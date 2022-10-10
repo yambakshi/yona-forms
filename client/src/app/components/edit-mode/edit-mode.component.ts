@@ -18,6 +18,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
     submitted: boolean = false;
     editModeForm: FormGroup;
     afterViewCheckedEnabled: boolean = true;
+    showLoader: boolean = false;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,

@@ -26,6 +26,7 @@
     "paths": {
       "@services/*": ["app/services/*"],
       "@components/*": ["app/components/*"],
+      "@enums/*": ["app/enums/*"],
       "@models/*": ["app/models/*"],
     }
   },

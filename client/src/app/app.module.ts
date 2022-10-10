@@ -15,12 +15,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 import { EditModeComponent } from './components/edit-mode/edit-mode.component';
 import { FieldInputComponent } from '@components/field-input/field-input.component';
 import { SideNavComponent } from '@components/side-nav/side-nav.component';
 import { MainHeaderComponent } from '@components/main-header/main-header.component';
 import { RouterService } from '@services/router.service';
+import { SpinningLoaderComponent } from '@components/spinning-loader/spinning-loader.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { RouterService } from '@services/router.service';
     SideNavComponent,
     EditModeComponent,
     FieldInputComponent,
-    MainHeaderComponent
+    MainHeaderComponent,
+    SpinningLoaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -46,6 +49,7 @@ import { RouterService } from '@services/router.service';
     MatProgressBarModule,
     MatToolbarModule,
     MatButtonModule,
+    MatSelectModule,
 
     StoreModule.forRoot({}, {}),
   ],

@@ -1,7 +1,13 @@
 .field-input-container {
     border: 1px solid #fff;
-    padding: 10px;
+    padding: 25px 22px 10px;
 
     > .field-input-fields-container {
+        display: flex;
+
+        > .field-label-field {
+            flex: 1;
+            margin-right: 20px;
+        }
     }
 }

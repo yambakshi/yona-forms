@@ -1,7 +1,12 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
+import { FieldType } from '@enums/field-type.enum';
 import { Field } from '@models/field';
 
+interface DropdownOption {
+    value: string;
+    viewValue: string;
+}
 
 @Component({
     selector: 'field-input',
@@ -9,14 +14,14 @@ import { Field } from '@models/field';
     styleUrls: ['./field-input.component.scss'],
     encapsulation: ViewEncapsulation.None,
     providers: [{
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: FieldInputComponent
+        provide: NG_VALUE_ACCESSOR,
+        multi: true,
+        useExisting: FieldInputComponent
     },
     {
-      provide: NG_VALIDATORS,
-      multi: true,
-      useExisting: FieldInputComponent
+        provide: NG_VALIDATORS,
+        multi: true,
+        useExisting: FieldInputComponent
     }]
 })
 export class FieldInputComponent implements ControlValueAccessor {
@@ -24,6 +29,7 @@ export class FieldInputComponent implements ControlValueAccessor {
     @Output() fieldChanged: EventEmitter<Field> = new EventEmitter<Field>();
     fieldInputForm: FormGroup;
     field: Field = new Field();
+    fieldTypes: DropdownOption[] = Object.entries(FieldType).map(([k, v]) => ({ value: k, viewValue: v }));
     touched: boolean = false;
     disabled: boolean = false;
 
@@ -40,6 +46,9 @@ export class FieldInputComponent implements ControlValueAccessor {
         this.field[field] = this.fieldInputForm.get(field).value;
         this.onChange(this.field);
         this.fieldChanged.emit(this.field);
+    }
+
+    onSelectionChange($event): void {
     }
 
     onTouched = () => { };
