@@ -1,0 +1,20 @@
+.mat-nav-list {
+    min-width: 300px;
+
+    &.mat-list-base {
+        padding-top: 0;
+    }
+
+    > .mat-list-item {
+        color: #fff;
+
+        & .nav-caption {
+            padding-left: 15px;
+        }
+
+        &.selected,
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    }
+}
