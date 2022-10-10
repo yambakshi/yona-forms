@@ -1,0 +1,39 @@
+@import "../../../scss/global/index.scss";
+
+@include media("screen", ">mobile") {
+    .edit-mode-container {
+        > .edit-mode-form {
+            > .edit-mode-form-body {
+                > .field-section-container {
+                    > .field-header {
+                        cursor: pointer;
+
+                        > .remove-field-header-icon {
+                            &:hover {
+                                color: rgba(255, 255, 255, 1);
+                            }
+
+                            &.disabled {
+                                &:hover {
+                                    color: #666;
+                                }
+                            }
+                        }
+
+                        &:hover {
+                            color: rgba(255, 255, 255, 1);
+                        }
+                    }
+                }
+
+                > .add-field-button {
+                    cursor: pointer;
+
+                    &:hover {
+                        color: rgba(255, 255, 255, 1);
+                    }
+                }
+            }
+        }
+    }
+}

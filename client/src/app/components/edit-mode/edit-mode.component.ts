@@ -8,7 +8,11 @@ import { Field } from '@models/field';
 @Component({
     selector: 'edit-mode',
     templateUrl: './edit-mode.component.html',
-    styleUrls: ['./edit-mode.component.scss',]
+    styleUrls: [
+        './edit-mode.component.common.scss',
+        './edit-mode.component.desktop.scss',
+        './edit-mode.component.mobile.scss',
+    ]
 })
 export class EditModeComponent implements OnInit, AfterViewChecked {
     submitted: boolean = false;
