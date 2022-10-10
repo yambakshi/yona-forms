@@ -1,0 +1,61 @@
+.edit-mode-container {
+    color: #fff;
+    margin: auto;
+    width: 768px;
+
+    > h1 {
+        text-align: center;
+    }
+
+    > form {
+        > .edit-mode-form-body {
+            > .field-section-container {
+                > .field-header {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    border: 1px solid #fff;
+                    color: rgba(255, 255, 255, 0.7);
+
+                    > h1 {
+                        flex: 1;
+                        margin: 0;
+
+                        &.invalid-song {
+                            color: red;
+                        }
+                    }
+
+                    > .remove-field-header-icon {
+                        margin-left: 15px;
+                        user-select: none;
+                        color: rgba(255, 255, 255, 0.7);
+
+                        &.disabled {
+                            color: #666;
+                        }
+
+                        > .mat-icon {
+                            display: flex;
+                        }
+                    }
+                }
+            }
+
+            > .add-field-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px 0;
+                border: 1px solid #fff;
+                user-select: none;
+                color: rgba(255, 255, 255, 0.7);
+
+                > .mat-icon {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

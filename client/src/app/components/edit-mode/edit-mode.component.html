@@ -1,0 +1,25 @@
+<div class="edit-mode-container">
+    <h1>EDIT MODE</h1>
+    <form [formGroup]="editModeForm" class="edit-mode-form" (ngSubmit)="onSubmit()"
+        (keydown.enter)="$event.preventDefault()">
+        <div class="edit-mode-form-body" formArrayName="fields">
+            <div *ngFor="let field of fields.controls; let i = index" class="field-section-container"
+                [ngClass]="fieldsRange.max === fields.length ? 'max-fields-reached' : ''">
+                <div class="field-header">
+                    <h1 [ngClass]="isFieldInvalid(i) ? 'invalid-field' : ''">{{getFieldName(i)}}</h1>
+                    <div class="remove-field-header-icon" (click)="removeField($event, i)"
+                        [ngClass]="isRemoveDisabled ? 'disabled' : ''">
+                        <mat-icon>delete</mat-icon>
+                    </div>
+                </div>
+                <div class="field-body">
+                    <field-input [formControlName]="i" [submitted]="this.submitted"
+                        (fieldChanged)="onFieldsChanged(i, $event)"></field-input>
+                </div>
+            </div>
+            <h1 *ngIf="fieldsRange.max > fields.length" class="add-field-button" (click)="addField()">
+                <mat-icon>add</mat-icon><span>Add Field</span>
+            </h1>
+        </div>
+    </form>
+</div>

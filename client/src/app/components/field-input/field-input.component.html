@@ -1,0 +1,11 @@
+<div class="field-input-container" [formGroup]="fieldInputForm">
+    <div class="field-input-fields-container">
+        <mat-form-field class="field-input" (keydown.enter)="$event.preventDefault()">
+            <mat-label>Field Label</mat-label>
+            <input matInput formControlName="label" type="text" maxLength="50" (input)="onInput('label')" required>
+            <mat-error *ngIf="f.label.errors && f.label.errors.required">Label is required</mat-error>
+            <mat-error *ngIf="f.label.errors && f.label.errors.maxlength">Label must be between 1-50 characters
+            </mat-error>
+        </mat-form-field>
+    </div>
+</div>
