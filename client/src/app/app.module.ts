@@ -34,6 +34,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EntryModeComponent } from '@components/entry-mode/entry-mode.component';
 import { MainViewComponent } from '@components/main-view/main-view.component';
+import { ViewModeComponent } from '@components/view-mode/view-mode.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MainViewComponent } from '@components/main-view/main-view.component';
     SideNavComponent,
     EditModeComponent,
     EntryModeComponent,
+    ViewModeComponent,
     FieldInputComponent,
     MainHeaderComponent,
     MainViewComponent,
