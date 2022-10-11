@@ -1,5 +1,5 @@
 export enum FieldType {
-    Number = "Number",
-    String = "String",
-    RadioButton = "RadioButton",
+    Number = "number",
+    String = "text",
+    Radio = "radio",
 }

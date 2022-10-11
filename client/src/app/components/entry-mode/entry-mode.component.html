@@ -1,4 +1,36 @@
 <div class="entry-mode-container">
-    <h1>ENTRY MODE</h1>
-    <div>{{ stringifyState() }}</div>
+    <form #form="ngForm" [formGroup]="entryForm" class="entry-form" (ngSubmit)="onSubmit()"
+        (keydown.enter)="$event.preventDefault()">
+        <div class="entry-form-body" formArrayName="entryFields">
+            <div *ngFor="let field of entryFields.controls; let i = index" class="entry-field-container">
+                <div class="entry-field" [formGroupName]="i">
+                    <label class="required-asterisk">{{field.value.metadata.label}}</label>
+                    <mat-radio-group *ngIf="field.value.metadata.type === 'radio'; else showFormField"
+                        class="radio-buttons-container" formControlName="answer" required>
+                        <mat-radio-button *ngFor="let option of field.value.metadata.options"
+                            class="radio-button-option" [value]="option">
+                            {{option}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    <ng-template #showFormField>
+                        <mat-form-field class="answer-field" (keydown.enter)="$event.preventDefault()">
+                            <mat-label>Your answer</mat-label>
+                            <input matInput formControlName="answer" [type]="field.value.metadata.type" maxLength="50"
+                                required>
+                            <mat-error>This is a required question</mat-error>
+                        </mat-form-field>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="entry-form-footer">
+            <div *ngIf="showLoader" class="loader-container">
+                <spinning-loader></spinning-loader>
+            </div>
+            <button mat-button type="submit" class="submit-button" [disabled]="showLoader">
+                <div class="submit-button-content">Submit<mat-icon>done</mat-icon>
+                </div>
+            </button>
+        </div>
+    </form>
 </div>

@@ -1,6 +1,5 @@
-import { isPlatformBrowser } from '@angular/common';
-import { AfterViewChecked, Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Input, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Field } from '@models/field';
 import { Store } from '@ngrx/store';
 import { FormsApiService } from '@services/forms-api.service';
@@ -16,24 +15,46 @@ import * as fromLayout from '@store/reducers/layout.reducer';
         './entry-mode.component.mobile.scss',
     ]
 })
-export class EntryModeComponent implements OnInit, AfterViewChecked {
-    @Input() fields: Field[];
-    afterViewCheckedEnabled: boolean = false;
+export class EntryModeComponent {
+    @Input() formSchema: Field[];
+    @ViewChild('form') ngEntryForm: NgForm;
+    submitted: boolean = false;
+    entryForm: FormGroup;
+    showLoader: boolean = false;
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
         private store: Store<fromLayout.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
+        this.entryForm = this.formBuilder.group({
+            entryFields: this.formBuilder.array([])
+        })
     }
 
-    stringifyState(): string {
-        return JSON.stringify(this.fields);
+    get entryFields(): FormArray {
+        return this.entryForm.get('entryFields') as FormArray;
     }
 
-    ngOnInit(): void { }
+    ngOnChanges() {
+        this.ngEntryForm && this.ngEntryForm.resetForm();
+        const entryFieldsGroups = this.formSchema.map(({ label, type, options }) => {
+            const entryFieldGroup = this.formBuilder.group({
+                metadata: [{ label, type, options }, []],
+                answer: [null, Validators.required],
+            })
 
-    ngAfterViewChecked(): void {
-        if (!isPlatformBrowser(this.platformId) || !this.afterViewCheckedEnabled) return;
+            return entryFieldGroup;
+        })
+
+        this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
+    }
+
+    onSubmit(): void {
+        (this.entryForm as any).submitted = true;
+        if (this.entryForm.invalid) {
+            return;
+        }
+
+        console.log(JSON.stringify(this.entryForm.value))
     }
 }

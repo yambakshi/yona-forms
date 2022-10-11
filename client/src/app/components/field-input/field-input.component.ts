@@ -32,13 +32,18 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
     afterViewCheckedEnabled: boolean = true;
     fieldInputForm: FormGroup;
     field: Field = new Field();
-    fieldTypes: DropdownOption[] = Object.entries(FieldType).map(([k, v]) => ({ value: k, viewValue: v }));
+    fieldTypes: DropdownOption[] = [];
     touched: boolean = false;
     disabled: boolean = false;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private formBuilder: FormBuilder) {
+        this.fieldTypes = Object.entries(FieldType).map(([k, v]) => ({
+            value: v,
+            viewValue: k.charAt(0).toUpperCase() + k.slice(1)
+        }));
+
         this.fieldInputForm = this.formBuilder.group({
             label: [null, [Validators.required, Validators.maxLength(80)]],
             type: [null, Validators.required],
@@ -60,7 +65,7 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
     }
 
     get isRadioButton(): boolean {
-        return this.fieldInputForm.get('type').value === FieldType.RadioButton;
+        return this.fieldInputForm.get('type').value === FieldType.Radio;
     }
 
     get isRemoveDisabled(): boolean {

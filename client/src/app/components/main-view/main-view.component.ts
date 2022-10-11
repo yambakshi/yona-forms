@@ -1,9 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
 import { Field } from '@models/field';
 import { select, Store } from '@ngrx/store';
-import { FormsApiService } from '@services/forms-api.service';
 import { selectSearchStateValue } from '@store/reducers';
 import * as fromLayout from '@store/reducers/layout.reducer';
 import { Observable } from 'rxjs';
@@ -18,7 +16,7 @@ import { Observable } from 'rxjs';
         './main-view.component.mobile.scss',
     ]
 })
-export class MainViewComponent implements OnInit, AfterViewInit {
+export class MainViewComponent implements AfterViewInit {
     @ViewChild('headerTabs') headerTabs: ElementRef;
     @ViewChild('tabsLine') tabsLine: ElementRef;
     @ViewChild('sectionBody') sectionBody: ElementRef;
@@ -33,13 +31,9 @@ export class MainViewComponent implements OnInit, AfterViewInit {
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private renderer: Renderer2,
-        private store: Store<fromLayout.State>,
-        private formsApiService: FormsApiService,
-        private formBuilder: FormBuilder) {
+        private store: Store<fromLayout.State>) {
         this.fields$ = store.pipe(select(selectSearchStateValue));
     }
-
-    ngOnInit(): void { }
 
     ngAfterViewInit(): void {
         if (!isPlatformBrowser(this.platformId)) return;
