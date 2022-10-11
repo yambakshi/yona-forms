@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Input, Output, EventEmitter, ViewEncapsulation, Inject, PLATFORM_ID, AfterViewChecked } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { FieldType } from '@enums/field-type.enum';
-import { Field } from '@models/field';
+import { FormSchemaField } from '@models/form-schema-field';
 import { pairwise, startWith } from 'rxjs/operators';
 
 interface DropdownOption {
@@ -28,10 +28,10 @@ interface DropdownOption {
 })
 export class FieldInputComponent implements ControlValueAccessor, AfterViewChecked {
     @Input() submitted: boolean = false;
-    @Output() fieldChanged: EventEmitter<Field> = new EventEmitter<Field>();
+    @Output() fieldChanged: EventEmitter<FormSchemaField> = new EventEmitter<FormSchemaField>();
     afterViewCheckedEnabled: boolean = true;
     fieldInputForm: FormGroup;
-    field: Field = new Field();
+    field: FormSchemaField = new FormSchemaField();
     fieldTypes: DropdownOption[] = [];
     touched: boolean = false;
     disabled: boolean = false;
@@ -121,13 +121,13 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
         }
     }
 
-    onChange = (field: Field) => { };
+    onChange = (field: FormSchemaField) => { };
 
     registerOnChange(onChange: any): void {
         this.onChange = onChange;
     }
 
-    writeValue(field: Field) {
+    writeValue(field: FormSchemaField) {
         if (!field) return;
         const { label, type, options } = field;
         this.fieldInputForm.get('label').setValue(label);

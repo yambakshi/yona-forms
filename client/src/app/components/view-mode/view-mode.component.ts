@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { EntryField } from '@models/entry-field';
-import { Field } from '@models/field';
+import { FormSchemaField } from '@models/form-schema-field';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { Field } from '@models/field';
     encapsulation: ViewEncapsulation.None
 })
 export class ViewModeComponent {
-    @Input() formSchema: Field[];
+    @Input() formSchema: FormSchemaField[];
     @Input() entryForm: EntryField[];
     @ViewChild('viewModeContainer') viewModeContainer: ElementRef;
 

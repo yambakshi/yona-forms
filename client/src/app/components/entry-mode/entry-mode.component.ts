@@ -1,10 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Field } from '@models/field';
+import { FormSchemaField } from '@models/form-schema-field';
 import { Store } from '@ngrx/store';
 import { FormsApiService } from '@services/forms-api.service';
 import { EntryFormActions } from '@store/actions';
-import * as fromLayout from '@store/reducers/layout.reducer';
+import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 import { Subscription } from 'rxjs';
 import { pairwise, startWith } from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ import { pairwise, startWith } from 'rxjs/operators';
     ]
 })
 export class EntryModeComponent {
-    @Input() formSchema: Field[];
+    @Input() formSchema: FormSchemaField[];
     @ViewChild('form') ngEntryForm: NgForm;
     submitted: boolean = false;
     entryForm: FormGroup;
@@ -27,7 +27,7 @@ export class EntryModeComponent {
     entryFormChanges: Subscription;
 
     constructor(
-        private store: Store<fromLayout.State>,
+        private store: Store<fromEditMode.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
         this.entryForm = this.formBuilder.group({

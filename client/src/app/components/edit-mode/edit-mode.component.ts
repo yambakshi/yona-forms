@@ -2,12 +2,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewChecked, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { pairwise, startWith } from 'rxjs/operators';
-import { Field } from '@models/field';
+import { FormSchemaField } from '@models/form-schema-field';
 import { FormsApiService } from '@services/forms-api.service';
 import { ApiResponse } from '@models/api-response';
 import { Store } from '@ngrx/store';
-import { LayoutActions } from '@store/actions';
-import * as fromLayout from '@store/reducers/layout.reducer';
+import { EditModeActions } from '@store/actions';
+import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
-        private store: Store<fromLayout.State>,
+        private store: Store<fromEditMode.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
     }
@@ -45,7 +45,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit(): void {
-        const fields = [new Field()]
+        const fields = [new FormSchemaField()]
         this.formSchemaForm = this.formBuilder.group({
             fields: this.formBuilder.array(fields.map(field => this.createFieldControl(field)))
         })
@@ -54,7 +54,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
             startWith({ fields }),
             pairwise()
         ).subscribe(([prev, next]) => {
-            this.store.dispatch(LayoutActions.typeSearchValue(next));
+            this.store.dispatch(EditModeActions.userModifiedSchema(next));
         })
     }
 
@@ -76,10 +76,10 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
         this.fields.removeAt(i);
     }
 
-    createFieldControl(field?: Field): AbstractControl {
-        const fieldControl = this.formBuilder.control(field || new Field(), Validators.required);
+    createFieldControl(field?: FormSchemaField): AbstractControl {
+        const fieldControl = this.formBuilder.control(field || new FormSchemaField(), Validators.required);
         fieldControl.valueChanges.pipe(
-            startWith(field || new Field()),
+            startWith(field || new FormSchemaField()),
             pairwise()
         ).subscribe(([prev, next]) => {
             this.afterViewCheckedEnabled = prev !== next;
@@ -102,7 +102,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
         this.submitted = true;
         if (this.formSchemaForm.invalid) return;
         this.showLoader = true;
-        this.formsApiService.addForm(this.formSchemaForm.value.fields).subscribe((res: ApiResponse) => {
+        this.formsApiService.addFormSchema(this.formSchemaForm.value.fields).subscribe((res: ApiResponse) => {
             this.showLoader = false;
             if (!res) return;
         })

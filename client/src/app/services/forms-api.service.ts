@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiResponse } from "@models/api-response";
-import { Field } from "@models/field";
+import { FormSchemaField } from "@models/form-schema-field";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
@@ -16,7 +16,7 @@ export class FormsApiService {
 
     constructor(private http: HttpClient) { }
 
-    addForm(form: Field[]): Observable<any> {
+    addFormSchema(form: FormSchemaField[]): Observable<any> {
         return this.http.put<ApiResponse>('/api/forms', form, this.httpOptions).pipe(
             map((res: ApiResponse): ApiResponse => {
                 return res;

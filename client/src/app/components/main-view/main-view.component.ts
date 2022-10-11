@@ -1,11 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
 import { EntryField } from '@models/entry-field';
-import { Field } from '@models/field';
+import { FormSchemaField } from '@models/form-schema-field';
 import { select, Store } from '@ngrx/store';
 import { selectSearchStateValue } from '@store/reducers';
 import { selectEntryFormStateValue } from '@store/selectors/entry-form.selector';
-import * as fromLayout from '@store/reducers/layout.reducer';
+import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 import { Observable } from 'rxjs';
 
 
@@ -22,7 +22,7 @@ export class MainViewComponent implements AfterViewInit {
     @ViewChild('headerTabs') headerTabs: ElementRef;
     @ViewChild('tabsLine') tabsLine: ElementRef;
     @ViewChild('sectionBody') sectionBody: ElementRef;
-    fields$: Observable<Field[]>;
+    fields$: Observable<FormSchemaField[]>;
     entryForm$: Observable<EntryField[]>;
     modesTabs: string[] = [
         'EDIT MODE',
@@ -34,7 +34,7 @@ export class MainViewComponent implements AfterViewInit {
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
         private renderer: Renderer2,
-        private store: Store<fromLayout.State>) {
+        private store: Store<fromEditMode.State>) {
         this.fields$ = store.pipe(select(selectSearchStateValue));
         this.entryForm$ = store.pipe(select(selectEntryFormStateValue));
     }
