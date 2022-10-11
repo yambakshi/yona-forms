@@ -5,6 +5,9 @@ import { pairwise, startWith } from 'rxjs/operators';
 import { Field } from '@models/field';
 import { FormsApiService } from '@services/forms-api.service';
 import { ApiResponse } from '@models/api-response';
+import { Store } from '@ngrx/store';
+import { LayoutActions } from '@store/actions';
+import * as fromLayout from '@store/reducers/layout.reducer';
 
 
 @Component({
@@ -24,6 +27,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
+        private store: Store<fromLayout.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
     }
@@ -45,6 +49,13 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
         this.editModeForm = this.formBuilder.group({
             fields: this.formBuilder.array(fields.map(field => this.createFieldControl(field)))
         })
+
+        this.editModeForm.valueChanges.pipe(
+            startWith({ fields }),
+            pairwise()
+        ).subscribe(([prev, next]) => {
+            this.store.dispatch(LayoutActions.typeSearchValue(next));
+        })
     }
 
     ngAfterViewChecked(): void {
@@ -53,9 +64,6 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
 
     getFieldName(i: number): string {
         return `#${i > 8 ? (i + 1) : '0' + (i + 1)} ${this.fields.value[i].label || 'Untitled'}`;
-    }
-
-    onFieldsChanged(i?: number, $event?): void {
     }
 
     isFieldInvalid(i: number): boolean {
@@ -88,10 +96,10 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
         const fieldControl = this.createFieldControl();
         this.fields.push(fieldControl);
         this.afterViewCheckedEnabled = true;
-        this.onFieldsChanged();
     }
 
     onSubmit(): void {
+        this.submitted = true;
         if (this.editModeForm.invalid) return;
         this.showLoader = true;
         this.formsApiService.addForm(this.editModeForm.value.fields).subscribe((res: ApiResponse) => {

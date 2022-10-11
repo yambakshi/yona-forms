@@ -25,16 +25,24 @@ import { RouterService } from '@services/router.service';
 import { SpinningLoaderComponent } from '@components/spinning-loader/spinning-loader.component';
 import { FormsApiService } from '@services/forms-api.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserStateInterceptor } from './interceptors/browser-state.interceptor';
-import { ApiHttpInterceptor } from './interceptors/api.interceptor';
+import { BrowserStateInterceptor } from '@interceptors/browser-state.interceptor';
+import { ApiHttpInterceptor } from '@interceptors/api.interceptor';
+
+import { ROOT_REDUCERS } from '@store/reducers';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EntryModeComponent } from '@components/entry-mode/entry-mode.component';
+import { MainViewComponent } from '@components/main-view/main-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SideNavComponent,
     EditModeComponent,
+    EntryModeComponent,
     FieldInputComponent,
     MainHeaderComponent,
+    MainViewComponent,
     SpinningLoaderComponent
   ],
   imports: [
@@ -57,7 +65,14 @@ import { ApiHttpInterceptor } from './interceptors/api.interceptor';
     MatButtonModule,
     MatSelectModule,
 
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(ROOT_REDUCERS, {}),
+    StoreRouterConnectingModule.forRoot(),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Yona Forms App',
+
+      // In a production build you would want to disable the Store Devtools
+      // logOnly: environment.production,
+    }),
   ],
   providers: [
     RouterService,

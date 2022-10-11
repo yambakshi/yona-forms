@@ -3,14 +3,14 @@
         <div class="field-input-fields">
             <mat-form-field class="field-label-field" (keydown.enter)="$event.preventDefault()">
                 <mat-label>Field Label</mat-label>
-                <input matInput formControlName="label" type="text" maxLength="80" (input)="onInput('label')" required>
+                <input matInput formControlName="label" type="text" maxLength="80" required>
                 <mat-error *ngIf="f.label.errors && f.label.errors.required">Label is required</mat-error>
                 <mat-error *ngIf="f.label.errors && f.label.errors.maxlength">Label must be between 1-80 characters
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="field-type-field" appearance="fill">
                 <mat-label>Field Type</mat-label>
-                <mat-select formControlName="type" (selectionChange)="onSelectionChange($event)">
+                <mat-select formControlName="type">
                     <mat-option [value]="option.value" *ngFor="let option of fieldTypes">{{ option.viewValue }}
                     </mat-option>
                 </mat-select>

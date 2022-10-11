@@ -13,8 +13,7 @@
                     </div>
                 </div>
                 <div class="field-body">
-                    <field-input [formControlName]="i" [submitted]="this.submitted"
-                        (fieldChanged)="onFieldsChanged(i, $event)"></field-input>
+                    <field-input [formControlName]="i" [submitted]="submitted"></field-input>
                 </div>
             </div>
             <h1 *ngIf="fieldsRange.max > fields.length" class="add-field-button" (click)="addField()">

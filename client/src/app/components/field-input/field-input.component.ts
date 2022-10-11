@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation, Inject, PLAT
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { FieldType } from '@enums/field-type.enum';
 import { Field } from '@models/field';
+import { pairwise, startWith } from 'rxjs/operators';
 
 interface DropdownOption {
     value: string;
@@ -43,6 +44,13 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
             type: [null, Validators.required],
             options: this.formBuilder.array([])
         });
+
+        this.fieldInputForm.valueChanges.pipe(
+            startWith({}),
+            pairwise()
+        ).subscribe(([prev, next]) => {
+            this.onChange(next);
+        })
     }
 
     get f() { return this.fieldInputForm.controls; }
@@ -67,8 +75,23 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
         if (!isPlatformBrowser(this.platformId) || !this.afterViewCheckedEnabled) return;
     }
 
+    ngOnChanges(): void {
+        if (this.submitted) {
+            this.fieldInputForm.controls['label'].markAsTouched();
+            this.options.controls.forEach(option => option.markAsTouched());
+        } else {
+            this.fieldInputForm.controls['label'].markAsUntouched()
+            this.options.controls.forEach(option => option.markAsUntouched());
+        }
+    }
+
     createOptionControl(value?: string): FormControl {
         const optionControl = this.formBuilder.control(value, [Validators.required, Validators.maxLength(80)]);
+
+        if (this.submitted) {
+            optionControl.markAsTouched();
+        }
+
         return optionControl;
     }
 
@@ -78,23 +101,10 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
         this.options.removeAt(i);
     }
 
-    onInput(field: string): void {
-        this.field[field] = this.fieldInputForm.get(field).value;
-        this.onChange(this.field);
-        this.fieldChanged.emit(this.field);
-    }
-
     addOption(): void {
         const fieldControl = this.createOptionControl();
         this.options.push(fieldControl);
         this.afterViewCheckedEnabled = true;
-        this.onOptionsChanged();
-    }
-
-    onOptionsChanged(i?: number, $event?): void {
-    }
-
-    onSelectionChange($event): void {
     }
 
     onTouched = () => { };

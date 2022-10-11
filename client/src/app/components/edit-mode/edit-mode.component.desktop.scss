@@ -6,22 +6,19 @@
             > .edit-mode-form-body {
                 > .field-section-container {
                     > .field-header {
-                        cursor: pointer;
-
                         > .remove-field-header-icon {
+                            cursor: pointer;
+
                             &:hover {
                                 color: rgba(255, 255, 255, 1);
                             }
 
                             &.disabled {
+                                cursor: default;
                                 &:hover {
                                     color: #666;
                                 }
                             }
-                        }
-
-                        &:hover {
-                            color: rgba(255, 255, 255, 1);
                         }
                     }
                 }
