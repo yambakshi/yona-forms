@@ -1,5 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
-import { AfterViewChecked, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { pairwise, startWith } from 'rxjs/operators';
 import { FormSchemaField } from '@models/form-schema-field';
@@ -22,11 +21,9 @@ import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 export class EditModeComponent implements OnInit {
     submitted: boolean = false;
     formSchemaForm: FormGroup;
-    afterViewCheckedEnabled: boolean = true;
     showLoader: boolean = false;
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
         private store: Store<fromEditMode.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
@@ -58,10 +55,6 @@ export class EditModeComponent implements OnInit {
         })
     }
 
-    // ngAfterViewChecked(): void {
-    //     if (!isPlatformBrowser(this.platformId) || !this.afterViewCheckedEnabled) return;
-    // }
-
     getFieldName(i: number): string {
         return `#${i > 8 ? (i + 1) : '0' + (i + 1)} ${this.fields.value[i].label || 'Untitled'}`;
     }
@@ -78,24 +71,12 @@ export class EditModeComponent implements OnInit {
 
     createFieldControl(field?: FormSchemaField): AbstractControl {
         const fieldControl = this.formBuilder.control(field || new FormSchemaField(), Validators.required);
-        fieldControl.valueChanges.pipe(
-            startWith(field || new FormSchemaField()),
-            pairwise()
-        ).subscribe(([prev, next]) => {
-            this.afterViewCheckedEnabled = prev !== next;
-        })
-
-        if (this.submitted) {
-            fieldControl.setErrors({ required: true });
-        }
-
         return fieldControl;
     }
 
     addField(): void {
         const fieldControl = this.createFieldControl();
         this.fields.push(fieldControl);
-        this.afterViewCheckedEnabled = true;
     }
 
     onSubmit(): void {

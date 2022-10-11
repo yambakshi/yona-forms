@@ -40,7 +40,7 @@ import { localStorageSync } from 'ngrx-store-localstorage';
 
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({ keys: ['editMode', 'entryMode'], rehydrate: true, checkStorageAvailability: true })(reducer);
+  return localStorageSync({ keys: ['editMode', 'entryMode'], rehydrate: false, checkStorageAvailability: true })(reducer);
 }
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 

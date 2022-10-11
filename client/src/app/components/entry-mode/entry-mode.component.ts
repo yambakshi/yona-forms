@@ -52,9 +52,10 @@ export class EntryModeComponent {
         }
 
         const entryFieldsGroups = this.formSchemaStore.map(({ label, type, options }, i) => {
+            const answer = this.entryFormStore[i] && this.entryFormStore[i].answer;
             const entryFieldGroup = this.formBuilder.group({
                 metadata: [{ label, type, options }, []],
-                answer: [this.entryFormStore[i].answer, Validators.required],
+                answer: [answer, Validators.required],
             })
 
             return entryFieldGroup;
