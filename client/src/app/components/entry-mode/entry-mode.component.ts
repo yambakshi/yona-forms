@@ -54,6 +54,8 @@ export class EntryModeComponent {
             return entryFieldGroup;
         })
 
+        this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
+
         this.entryFormChanges = this.entryForm.valueChanges.pipe(
             startWith([]),
             pairwise()
@@ -61,8 +63,6 @@ export class EntryModeComponent {
             const fields = next.entryFields.map(({ metadata, answer }) => ({ question: metadata.label, answer }));
             this.store.dispatch(EntryModeActions.userAnswered({ fields }));
         })
-
-        this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
     }
 
     onSubmit(): void {
