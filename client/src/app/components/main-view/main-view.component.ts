@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, V
 import { EntryField } from '@models/entry-field';
 import { FormSchemaField } from '@models/form-schema-field';
 import { select, Store } from '@ngrx/store';
-import { selectSearchStateValue } from '@store/reducers';
+import { selectEditModeStateValue } from '@store/selectors/edit-mode.selector';
 import { selectEntryModeStateValue } from '@store/selectors/entry-mode.selector';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class MainViewComponent implements AfterViewInit {
         @Inject(PLATFORM_ID) private platformId: any,
         private renderer: Renderer2,
         private store: Store<fromEditMode.State>) {
-        this.fields$ = store.pipe(select(selectSearchStateValue));
+        this.fields$ = store.pipe(select(selectEditModeStateValue));
         this.entryForm$ = store.pipe(select(selectEntryModeStateValue));
     }
 

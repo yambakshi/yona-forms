@@ -19,12 +19,3 @@ export const ROOT_REDUCERS = new InjectionToken<
         router: fromRouter.routerReducer,
     }),
 });
-
-export const selectLayoutState = createFeatureSelector<fromEditMode.State>(
-    fromEditMode.editModeFeatureKey
-);
-
-export const selectSearchStateValue = createSelector(
-    selectLayoutState,
-    fromEditMode.selectEditModeValue
-);
