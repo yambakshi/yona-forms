@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/
 import { FormSchemaField } from '@models/form-schema-field';
 import { Store } from '@ngrx/store';
 import { FormsApiService } from '@services/forms-api.service';
-import { EntryFormActions } from '@store/actions';
+import { EntryModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 import { Subscription } from 'rxjs';
 import { pairwise, startWith } from 'rxjs/operators';
@@ -59,7 +59,7 @@ export class EntryModeComponent {
             pairwise()
         ).subscribe(([prev, next]) => {
             const fields = next.entryFields.map(({ metadata, answer }) => ({ question: metadata.label, answer }));
-            this.store.dispatch(EntryFormActions.userAnswered({ fields }));
+            this.store.dispatch(EntryModeActions.userAnswered({ fields }));
         })
 
         this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));

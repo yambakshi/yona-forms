@@ -1,4 +1,4 @@
 import * as EditModeActions from './edit-mode.actions';
-import * as EntryFormActions from './entry-form.actions';
+import * as EntryModeActions from './entry-mode.actions';
 
-export { EditModeActions, EntryFormActions };
+export { EditModeActions, EntryModeActions };

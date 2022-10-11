@@ -2,7 +2,7 @@ import { InjectionToken } from "@angular/core";
 import { Action, ActionReducerMap, createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromRouter from '@ngrx/router-store';
 import * as fromEditMode from './edit-mode.reducer';
-import * as fromEntryForm from './entry-form.reducer';
+import * as fromEntryMode from './entry-mode.reducer';
 
 
 export interface State {
@@ -15,7 +15,7 @@ export const ROOT_REDUCERS = new InjectionToken<
 >('Root reducers token', {
     factory: () => ({
         [fromEditMode.editModeFeatureKey]: fromEditMode.reducer,
-        [fromEntryForm.entryFormFeatureKey]: fromEntryForm.reducer,
+        [fromEntryMode.entryModeFeatureKey]: fromEntryMode.reducer,
         router: fromRouter.routerReducer,
     }),
 });
