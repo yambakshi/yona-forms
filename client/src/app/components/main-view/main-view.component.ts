@@ -1,8 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import { EntryField } from '@models/entry-field';
 import { Field } from '@models/field';
 import { select, Store } from '@ngrx/store';
 import { selectSearchStateValue } from '@store/reducers';
+import { selectEntryFormStateValue } from '@store/selectors/entry-form.selector';
 import * as fromLayout from '@store/reducers/layout.reducer';
 import { Observable } from 'rxjs';
 
@@ -21,6 +23,7 @@ export class MainViewComponent implements AfterViewInit {
     @ViewChild('tabsLine') tabsLine: ElementRef;
     @ViewChild('sectionBody') sectionBody: ElementRef;
     fields$: Observable<Field[]>;
+    entryForm$: Observable<EntryField[]>;
     modesTabs: string[] = [
         'EDIT MODE',
         'ENTRY MODE',
@@ -33,6 +36,7 @@ export class MainViewComponent implements AfterViewInit {
         private renderer: Renderer2,
         private store: Store<fromLayout.State>) {
         this.fields$ = store.pipe(select(selectSearchStateValue));
+        this.entryForm$ = store.pipe(select(selectEntryFormStateValue));
     }
 
     ngAfterViewInit(): void {

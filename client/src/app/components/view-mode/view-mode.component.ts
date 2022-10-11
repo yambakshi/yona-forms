@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { EntryField } from '@models/entry-field';
 import { Field } from '@models/field';
 
 
@@ -14,6 +15,7 @@ import { Field } from '@models/field';
 })
 export class ViewModeComponent {
     @Input() formSchema: Field[];
+    @Input() entryForm: EntryField[];
     @ViewChild('viewModeContainer') viewModeContainer: ElementRef;
 
     constructor(
@@ -33,7 +35,7 @@ export class ViewModeComponent {
         const formEntryH1 = this.renderer.createElement('h1');
         const formEntryValue = this.renderer.createElement('div');
         this.renderer.setProperty(formEntryH1, 'innerHTML', 'Form Entry');
-        this.renderer.setProperty(formEntryValue, 'innerHTML', '');
+        this.renderer.setProperty(formEntryValue, 'innerHTML', JSON.stringify(this.entryForm));
         this.renderer.appendChild(formEntry, formEntryH1);
         this.renderer.appendChild(formEntry, formEntryValue);
 

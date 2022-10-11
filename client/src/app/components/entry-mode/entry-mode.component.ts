@@ -3,7 +3,10 @@ import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/
 import { Field } from '@models/field';
 import { Store } from '@ngrx/store';
 import { FormsApiService } from '@services/forms-api.service';
+import { EntryFormActions } from '@store/actions';
 import * as fromLayout from '@store/reducers/layout.reducer';
+import { Subscription } from 'rxjs';
+import { pairwise, startWith } from 'rxjs/operators';
 
 
 @Component({
@@ -21,6 +24,7 @@ export class EntryModeComponent {
     submitted: boolean = false;
     entryForm: FormGroup;
     showLoader: boolean = false;
+    entryFormChanges: Subscription;
 
     constructor(
         private store: Store<fromLayout.State>,
@@ -36,7 +40,11 @@ export class EntryModeComponent {
     }
 
     ngOnChanges() {
-        this.ngEntryForm && this.ngEntryForm.resetForm();
+        if (this.ngEntryForm) {
+            this.entryFormChanges.unsubscribe();
+            this.ngEntryForm.resetForm();
+        }
+
         const entryFieldsGroups = this.formSchema.map(({ label, type, options }) => {
             const entryFieldGroup = this.formBuilder.group({
                 metadata: [{ label, type, options }, []],
@@ -44,6 +52,14 @@ export class EntryModeComponent {
             })
 
             return entryFieldGroup;
+        })
+
+        this.entryFormChanges = this.entryForm.valueChanges.pipe(
+            startWith([]),
+            pairwise()
+        ).subscribe(([prev, next]) => {
+            const fields = next.entryFields.map(({ metadata, answer }) => ({ question: metadata.label, answer }));
+            this.store.dispatch(EntryFormActions.userAnswered({ fields }));
         })
 
         this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));

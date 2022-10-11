@@ -1,5 +1,5 @@
 <div class="edit-mode-container">
-    <form [formGroup]="editModeForm" class="edit-mode-form" (ngSubmit)="onSubmit()"
+    <form [formGroup]="formSchemaForm" class="edit-mode-form" (ngSubmit)="onSubmit()"
         (keydown.enter)="$event.preventDefault()">
         <div class="edit-mode-form-body" formArrayName="fields">
             <div *ngFor="let field of fields.controls; let i = index" class="field-section-container"

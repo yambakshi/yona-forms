@@ -21,7 +21,7 @@ import * as fromLayout from '@store/reducers/layout.reducer';
 })
 export class EditModeComponent implements OnInit, AfterViewChecked {
     submitted: boolean = false;
-    editModeForm: FormGroup;
+    formSchemaForm: FormGroup;
     afterViewCheckedEnabled: boolean = true;
     showLoader: boolean = false;
 
@@ -33,7 +33,7 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
     }
 
     get fields(): FormArray {
-        return this.editModeForm.get('fields') as FormArray;
+        return this.formSchemaForm.get('fields') as FormArray;
     }
 
     get fieldsRange(): { min: number, max: number } {
@@ -46,11 +46,11 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
 
     ngOnInit(): void {
         const fields = [new Field()]
-        this.editModeForm = this.formBuilder.group({
+        this.formSchemaForm = this.formBuilder.group({
             fields: this.formBuilder.array(fields.map(field => this.createFieldControl(field)))
         })
 
-        this.editModeForm.valueChanges.pipe(
+        this.formSchemaForm.valueChanges.pipe(
             startWith({ fields }),
             pairwise()
         ).subscribe(([prev, next]) => {
@@ -100,9 +100,9 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
 
     onSubmit(): void {
         this.submitted = true;
-        if (this.editModeForm.invalid) return;
+        if (this.formSchemaForm.invalid) return;
         this.showLoader = true;
-        this.formsApiService.addForm(this.editModeForm.value.fields).subscribe((res: ApiResponse) => {
+        this.formsApiService.addForm(this.formSchemaForm.value.fields).subscribe((res: ApiResponse) => {
             this.showLoader = false;
             if (!res) return;
         })
