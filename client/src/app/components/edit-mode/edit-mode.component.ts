@@ -27,6 +27,7 @@ export class EditModeComponent implements OnInit {
         private store: Store<fromEditMode.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
+        this.store.dispatch(EditModeActions.fetch({ query: '' }));
     }
 
     get fields(): FormArray {

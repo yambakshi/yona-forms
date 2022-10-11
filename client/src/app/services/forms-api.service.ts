@@ -24,6 +24,14 @@ export class FormsApiService {
             catchError(this.handleError));
     }
 
+    getFormSchema(): Observable<any> {
+        return this.http.get<ApiResponse>('/api/forms', this.httpOptions).pipe(
+            map((res: ApiResponse): ApiResponse => {
+                return res;
+            }),
+            catchError(this.handleError));
+    }
+
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof HttpErrorResponse) {
             // A client-side or network error occurred. Handle it accordingly.

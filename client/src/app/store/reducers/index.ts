@@ -1,5 +1,5 @@
 import { InjectionToken } from "@angular/core";
-import { Action, ActionReducerMap, createFeatureSelector, createSelector } from "@ngrx/store";
+import { Action, ActionReducerMap } from "@ngrx/store";
 import * as fromRouter from '@ngrx/router-store';
 import * as fromEditMode from './edit-mode.reducer';
 import * as fromEntryMode from './entry-mode.reducer';
