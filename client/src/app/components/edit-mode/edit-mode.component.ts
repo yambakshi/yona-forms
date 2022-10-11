@@ -19,7 +19,7 @@ import * as fromEditMode from '@store/reducers/edit-mode.reducer';
         './edit-mode.component.mobile.scss',
     ]
 })
-export class EditModeComponent implements OnInit, AfterViewChecked {
+export class EditModeComponent implements OnInit {
     submitted: boolean = false;
     formSchemaForm: FormGroup;
     afterViewCheckedEnabled: boolean = true;
@@ -58,9 +58,9 @@ export class EditModeComponent implements OnInit, AfterViewChecked {
         })
     }
 
-    ngAfterViewChecked(): void {
-        if (!isPlatformBrowser(this.platformId) || !this.afterViewCheckedEnabled) return;
-    }
+    // ngAfterViewChecked(): void {
+    //     if (!isPlatformBrowser(this.platformId) || !this.afterViewCheckedEnabled) return;
+    // }
 
     getFieldName(i: number): string {
         return `#${i > 8 ? (i + 1) : '0' + (i + 1)} ${this.fields.value[i].label || 'Untitled'}`;

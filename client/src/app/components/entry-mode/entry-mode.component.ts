@@ -1,5 +1,7 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, Input, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { EntryField } from '@models/entry-field';
 import { FormSchemaField } from '@models/form-schema-field';
 import { Store } from '@ngrx/store';
 import { FormsApiService } from '@services/forms-api.service';
@@ -19,7 +21,8 @@ import { pairwise, startWith } from 'rxjs/operators';
     ]
 })
 export class EntryModeComponent {
-    @Input() formSchema: FormSchemaField[];
+    @Input() formSchemaStore: FormSchemaField[];
+    @Input() entryFormStore: EntryField[];
     @ViewChild('form') ngEntryForm: NgForm;
     submitted: boolean = false;
     entryForm: FormGroup;
@@ -27,6 +30,7 @@ export class EntryModeComponent {
     entryFormChanges: Subscription;
 
     constructor(
+        @Inject(PLATFORM_ID) private platformId: any,
         private store: Store<fromEditMode.State>,
         private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
@@ -40,15 +44,17 @@ export class EntryModeComponent {
     }
 
     ngOnChanges() {
+        if (!isPlatformBrowser(this.platformId)) return;
+
         if (this.ngEntryForm) {
             this.entryFormChanges.unsubscribe();
             this.ngEntryForm.resetForm();
         }
 
-        const entryFieldsGroups = this.formSchema.map(({ label, type, options }) => {
+        const entryFieldsGroups = this.formSchemaStore.map(({ label, type, options }, i) => {
             const entryFieldGroup = this.formBuilder.group({
                 metadata: [{ label, type, options }, []],
-                answer: [null, Validators.required],
+                answer: [this.entryFormStore[i].answer, Validators.required],
             })
 
             return entryFieldGroup;

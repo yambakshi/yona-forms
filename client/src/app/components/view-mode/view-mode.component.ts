@@ -14,8 +14,8 @@ import { FormSchemaField } from '@models/form-schema-field';
     encapsulation: ViewEncapsulation.None
 })
 export class ViewModeComponent {
-    @Input() formSchema: FormSchemaField[];
-    @Input() entryForm: EntryField[];
+    @Input() formSchemaStore: FormSchemaField[];
+    @Input() entryFormStore: EntryField[];
     @ViewChild('viewModeContainer') viewModeContainer: ElementRef;
 
     constructor(
@@ -35,7 +35,7 @@ export class ViewModeComponent {
         const formEntryH1 = this.renderer.createElement('h1');
         const formEntryValue = this.renderer.createElement('div');
         this.renderer.setProperty(formEntryH1, 'innerHTML', 'Form Entry');
-        this.renderer.setProperty(formEntryValue, 'innerHTML', JSON.stringify(this.entryForm));
+        this.renderer.setProperty(formEntryValue, 'innerHTML', JSON.stringify(this.entryFormStore));
         this.renderer.appendChild(formEntry, formEntryH1);
         this.renderer.appendChild(formEntry, formEntryValue);
 
@@ -44,7 +44,7 @@ export class ViewModeComponent {
         const formSchemaH1 = this.renderer.createElement('h1');
         const formSchemaValue = this.renderer.createElement('div');
         this.renderer.setProperty(formSchemaH1, 'innerHTML', 'Form Schema');
-        this.renderer.setProperty(formSchemaValue, 'innerHTML', JSON.stringify(this.formSchema));
+        this.renderer.setProperty(formSchemaValue, 'innerHTML', JSON.stringify(this.formSchemaStore));
         this.renderer.appendChild(formSchema, formSchemaH1);
         this.renderer.appendChild(formSchema, formSchemaValue);
 

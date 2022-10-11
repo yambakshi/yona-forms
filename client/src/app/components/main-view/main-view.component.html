@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-view-container">
     <div class="yona-forms-sections-header">
         <div class="tabs-container">
             <ul #headerTabs>
@@ -14,10 +14,10 @@
             <edit-mode></edit-mode>
         </div>
         <div class="entry-mode-section-container">
-            <entry-mode [formSchema]="fields$ | async"></entry-mode>
+            <entry-mode [formSchemaStore]="fields$ | async" [entryFormStore]="entryForm$ | async"></entry-mode>
         </div>
         <div class="view-mode-section-container">
-            <view-mode [formSchema]="fields$ | async" [entryForm]="entryForm$ | async"></view-mode>
+            <view-mode [formSchemaStore]="fields$ | async" [entryFormStore]="entryForm$ | async"></view-mode>
         </div>
     </div>
 </div>

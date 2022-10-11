@@ -4,7 +4,7 @@ import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-bro
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,6 +35,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EntryModeComponent } from '@components/entry-mode/entry-mode.component';
 import { MainViewComponent } from '@components/main-view/main-view.component';
 import { ViewModeComponent } from '@components/view-mode/view-mode.component';
+
+import { localStorageSync } from 'ngrx-store-localstorage';
+
+
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({ keys: ['editMode', 'entryMode'], rehydrate: true, checkStorageAvailability: true })(reducer);
+}
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
   declarations: [
@@ -69,7 +77,7 @@ import { ViewModeComponent } from '@components/view-mode/view-mode.component';
     MatSelectModule,
     MatRadioModule,
 
-    StoreModule.forRoot(ROOT_REDUCERS, {}),
+    StoreModule.forRoot(ROOT_REDUCERS, { metaReducers }),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({
       name: 'NgRx Yona Forms App',
