@@ -1,0 +1,23 @@
+@import "../../../scss/global/index.scss";
+
+@include media("screen", ">mobile") {
+    .main-container {
+        > .yona-forms-sections-header {
+            > .tabs-container {
+                > ul {
+                    > li {
+                        cursor: pointer;
+
+                        &.invalid-tab:hover {
+                            color: red;
+                        }
+
+                        &:hover {
+                            color: rgba(255, 255, 255, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

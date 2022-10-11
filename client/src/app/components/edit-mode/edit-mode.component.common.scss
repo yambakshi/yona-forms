@@ -4,16 +4,10 @@
     width: 900px;
     height: 100%;
 
-    > h1 {
-        text-align: center;
-        padding: 15px 0;
-        margin: 0;
-    }
-
     > form {
         overflow: hidden;
         position: relative;
-        height: calc(100% - 62px);
+        height: 100%;
 
         > .edit-mode-form-body {
             overflow: auto;

@@ -1,1 +1,71 @@
-.main-container {}
+.main-container {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    height: 100%;
+
+    > .yona-forms-sections-header {
+        display: flex;
+        min-height: 70px;
+        width: 100%;
+        justify-content: center;
+        background-color: #444;
+
+        > .tabs-container {
+            display: flex;
+            overflow: auto;
+            position: relative;
+            width: 100%;
+
+            > ul {
+                display: flex;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+
+                > li {
+                    font-weight: 900;
+                    font-size: 18px;
+                    user-select: none;
+                    align-items: center;
+                    justify-content: center;
+                    display: flex;
+                    color: rgba(255, 255, 255, 0.7);
+                    white-space: nowrap;
+                    text-align: center;
+
+                    &.selected {
+                        color: rgba(255, 255, 255, 1);
+                    }
+
+                    &.invalid-tab {
+                        color: red;
+                    }
+                }
+            }
+
+            > .tabs-line {
+                height: 2px;
+                position: absolute;
+                bottom: 0;
+                margin: 10px 0 0 0;
+                background-color: #ff1847;
+                transition: all 0.4s ease;
+            }
+        }
+    }
+
+    > .yona-forms-sections-body {
+        display: flex;
+        background-color: transparent;
+        flex: 1;
+        width: 100%;
+        overflow: auto;
+
+        > div {
+            display: none;
+        }
+    }
+}

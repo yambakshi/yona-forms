@@ -1,3 +1,23 @@
 <div class="main-container">
-    <entry-mode [fields]="fields$ | async"></entry-mode>
+    <div class="yona-forms-sections-header">
+        <div class="tabs-container">
+            <ul #headerTabs>
+                <li *ngFor="let tab of modesTabs; let i = index"
+                    [ngStyle]="{ 'width': ((1 / modesTabs.length) * 100) + '%' }"
+                    [ngClass]="[selectedTab === i ? 'selected' : '']" (click)="selectTab(i)">{{tab}}</li>
+            </ul>
+            <div #tabsLine class="tabs-line"></div>
+        </div>
+    </div>
+    <div #sectionBody class="yona-forms-sections-body">
+        <div class="edit-mode-section-container">
+            <edit-mode></edit-mode>
+        </div>
+        <div class="entry-mode-section-container">
+            <entry-mode [fields]="fields$ | async"></entry-mode>
+        </div>
+        <div class="view-mode-section-container">
+            <h1>VIEW MODE</h1>
+        </div>
+    </div>
 </div>
