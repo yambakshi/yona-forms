@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { EntryModeForm } from '@models/forms';
+import { EntryModeForm } from '@models/entry-mode-form';
 import { select, Store } from '@ngrx/store';
 import { EntryModeActions } from '@store/actions';
 import * as fromEntryMode from '@store/reducers/entry-mode.reducer';

@@ -1,8 +1,7 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, Inject, PLATFORM_ID, AfterViewChecked } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Inject, PLATFORM_ID } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { FieldType } from '@enums/field-type.enum';
-import { EditModeField } from '@models/forms';
+import { EditModeField } from '@models/edit-mode-field';
 import { pairwise, startWith } from 'rxjs/operators';
 
 interface DropdownOption {

@@ -15,18 +15,8 @@ export class SideNavComponent {
     menuItems = [{
         link: '/',
         icon: 'home',
-        label: 'Edit Mode'
-    },
-    {
-        link: '/entry-mode',
-        icon: 'radio',
-        label: 'Entry Mode'
-    },
-    {
-        link: '/view-mode',
-        icon: 'new_releases',
-        label: 'View Mode'
-    },]
+        label: 'Home'
+    }]
 
     constructor(public router: Router) { }
 

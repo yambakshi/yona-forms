@@ -1,6 +1,6 @@
 import { Component, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { EntryModeForm } from '@models/forms';
+import { EntryModeForm } from '@models/entry-mode-form';
 import { select, Store } from '@ngrx/store';
 import { EntryModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';

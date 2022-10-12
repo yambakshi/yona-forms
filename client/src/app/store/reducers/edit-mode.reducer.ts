@@ -1,4 +1,4 @@
-import { EditModeForm } from "@models/forms";
+import { EditModeForm } from "@models/edit-mode-form";
 import { createReducer, on } from "@ngrx/store";
 import { EditModeActions } from "../actions";
 

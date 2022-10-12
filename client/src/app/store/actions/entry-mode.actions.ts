@@ -1,4 +1,4 @@
-import { EntryModeForm } from '@models/forms';
+import { EntryModeForm } from '@models/entry-mode-form';
 import { createAction, props } from '@ngrx/store';
 
 // SUBMIT

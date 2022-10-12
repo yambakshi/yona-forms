@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditModeField } from '@models/forms';
-import { EditModeForm } from '@models/forms';
+import { EditModeField } from '@models/edit-mode-field';
+import { EditModeForm } from '@models/edit-mode-form';
 import { Store } from '@ngrx/store';
 import { EditModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';

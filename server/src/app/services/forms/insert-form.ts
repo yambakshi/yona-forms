@@ -1,5 +1,5 @@
 import { postgresql } from '../../dal';
-import { EntryModeForm } from '../../models/form';
+import { EntryModeForm } from '../../models/entry-mode-form';
 
 
 export async function insertForm(form: EntryModeForm) {

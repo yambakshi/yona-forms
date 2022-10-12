@@ -4,7 +4,7 @@ import { of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { FormsApiService } from '@services/forms-api.service';
 import { EntryModeActions } from "@store/actions";
-import { EntryModeForm } from "@models/forms";
+import { EntryModeForm } from "@models/entry-mode-form";
 
 @Injectable()
 export class EntryModeEffects {
