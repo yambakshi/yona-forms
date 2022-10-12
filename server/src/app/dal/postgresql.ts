@@ -2,17 +2,23 @@ import { env, logger } from '../../config';
 import { Client } from 'pg';
 
 
-export class PostgreSQL {
-    postgresqlClient: Client;
+class PostgreSQL {
+    client: Client;
 
     async connect() {
         try {
-            const postgresqlClient = new Client(env.postgresql);
-            await postgresqlClient.connect();
+            this.client = new Client(env.postgresql);
+            await this.client.connect();
             logger.info({ message: 'Connected to PostgreSQL', label: 'PostgreSQL' });
+
+            
         } catch (error) {
             logger.error({ message: error, label: 'PostgreSQL' });
         }
+    }
+
+    async query(query: string) {
+        return this.client.query(query);
     }
 }
 

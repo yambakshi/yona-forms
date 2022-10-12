@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS entry_mode_fields(
+    field_id serial PRIMARY KEY,
+    question VARCHAR (80) UNIQUE NOT NULL,
+    answer VARCHAR (50) NOT NULL,
+    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
