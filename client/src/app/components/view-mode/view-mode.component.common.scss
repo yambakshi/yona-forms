@@ -7,13 +7,17 @@
         padding: 20px 0;
         width: 100%;
 
-        // > .state-log-entry-date {
-        //     color: pink;
-        // }
+        > .form-entry-metadata {
+            color: pink;
+        }
 
-        // & h1 {
-        //     margin: 10px 0;
-        // }
+        > .form-entry-fields {
+            margin-bottom: 10px;
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
 
         &:after {
             content: "";

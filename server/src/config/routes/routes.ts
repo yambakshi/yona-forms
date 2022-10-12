@@ -1,15 +1,11 @@
 import { Router } from "express";
-import {
-    getForms, createForm, updateForm, deleteForms
-} from '../../app/controllers';
+import { getForms, addForm } from '../../app/controllers';
 
 
 export const router = Router();
 
-// Releases
+// Forms
 
-router.route('/forms/:id?')
+router.route('/forms')
     .get(getForms)
-    .put(createForm)
-    .post(updateForm)
-    .delete(deleteForms);
+    .put(addForm);

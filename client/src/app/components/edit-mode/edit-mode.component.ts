@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormSchemaField } from '@models/form-schema-field';
+import { EditModeField } from '@models/forms';
 import { EditModeForm } from '@models/forms';
 import { Store } from '@ngrx/store';
 import { EditModeActions } from '@store/actions';
@@ -39,17 +39,10 @@ export class EditModeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const fields = [new FormSchemaField()]
+        const fields = [new EditModeField()]
         this.formSchemaForm = this.formBuilder.group({
             fields: this.formBuilder.array(fields.map(field => this.createFieldControl(field)))
         })
-
-        // this.formSchemaForm.valueChanges.pipe(
-        //     startWith({ fields }),
-        //     pairwise()
-        // ).subscribe(([prev, next]) => {
-        //     this.store.dispatch(EditModeActions.userModifiedSchema(next));
-        // })
     }
 
     getFieldName(i: number): string {
@@ -66,8 +59,8 @@ export class EditModeComponent implements OnInit {
         this.fields.removeAt(i);
     }
 
-    createFieldControl(field?: FormSchemaField): AbstractControl {
-        const fieldControl = this.formBuilder.control(field || new FormSchemaField(), Validators.required);
+    createFieldControl(field?: EditModeField): AbstractControl {
+        const fieldControl = this.formBuilder.control(field || new EditModeField(), Validators.required);
         return fieldControl;
     }
 
@@ -79,13 +72,8 @@ export class EditModeComponent implements OnInit {
     onSubmit(): void {
         this.submitted = true;
         if (this.formSchemaForm.invalid) return;
-        // this.showLoader = true;
-        // this.formsApiService.addFormSchema(this.formSchemaForm.value.fields).subscribe((res: ApiResponse) => {
-        //     this.showLoader = false;
-        //     if (!res) return;
-        // })
 
         const form: EditModeForm = { fields: this.formSchemaForm.value.fields };
-        this.store.dispatch(EditModeActions.userSubmitted({ form }));
+        this.store.dispatch(EditModeActions.userSaved({ form }));
     }
 }

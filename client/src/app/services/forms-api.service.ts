@@ -1,8 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiResponse } from "@models/api-response";
-import { EntryModeForm } from "@models/entry-form";
-import { FormSchemaField } from "@models/form-schema-field";
+import { EntryModeForm } from "@models/forms";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
@@ -16,22 +15,6 @@ export class FormsApiService {
     }
 
     constructor(private http: HttpClient) { }
-
-    addFormSchema(form: FormSchemaField[]): Observable<any> {
-        return this.http.put<ApiResponse>('/api/forms', form, this.httpOptions).pipe(
-            map((res: ApiResponse): ApiResponse => {
-                return res;
-            }),
-            catchError(this.handleError));
-    }
-
-    getFormSchema(): Observable<any> {
-        return this.http.get<ApiResponse>('/api/forms', this.httpOptions).pipe(
-            map((res: ApiResponse): ApiResponse => {
-                return res;
-            }),
-            catchError(this.handleError));
-    }
 
     getForms(): Observable<any> {
         return this.http.get<ApiResponse>('/api/forms', this.httpOptions).pipe(

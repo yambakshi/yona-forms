@@ -1,9 +1,5 @@
-import { EntryModeForm } from '@models/entry-form';
+import { EntryModeForm } from '@models/forms';
 import { createAction, props } from '@ngrx/store';
-
-// export const userAnswered = createAction(
-//     '[Entry Forms] User Answered',
-//     props<{ form: EntryModeForm }>());
 
 // SUBMIT
 

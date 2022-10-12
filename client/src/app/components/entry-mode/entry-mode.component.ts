@@ -1,8 +1,6 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, Input, PLATFORM_ID, SimpleChange, ViewChild } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { EntryModeForm } from '@models/entry-form';
-import { FormSchemaField } from '@models/form-schema-field';
+import { EntryModeForm } from '@models/forms';
 import { select, Store } from '@ngrx/store';
 import { EntryModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';
@@ -20,8 +18,6 @@ import { selectEditModeStateValue } from '@store/selectors/edit-mode.selector';
     ]
 })
 export class EntryModeComponent {
-    // @Input() formSchema: FormSchemaField[];
-    // @Input() entryFormSchema: EntryModeForm;
     @ViewChild('form') ngEntryForm: NgForm;
     submitted: boolean = false;
     entryForm: FormGroup;
@@ -56,37 +52,6 @@ export class EntryModeComponent {
 
     get entryFields(): FormArray {
         return this.entryForm.get('entryFields') as FormArray;
-    }
-
-    ngOnChanges(changes: SimpleChange) {
-        // if (!isPlatformBrowser(this.platformId) || changes['entryFormSchema']) return;
-
-        // if (this.ngEntryForm) {
-        //     this.ngEntryForm.resetForm();
-        // }
-
-        // const entryFieldsGroups = this.formSchema.map(({ label, type, options }, i) => {
-        //     const answer = this.entryFormSchema[i] && this.entryFormSchema[i].answer;
-        //     const entryFieldGroup = this.formBuilder.group({
-        //         metadata: [{ label, type, options }, []],
-        //         answer: [answer, Validators.required],
-        //     })
-
-        //     return entryFieldGroup;
-        // })
-
-        // this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
-    }
-
-    onInput(): void {
-        // const fields = this.entryFields.controls.map(control => {
-        //     const { metadata, answer } = control.value;
-        //     return { question: metadata.label, answer };
-        // });
-
-        // const form: EntryModeForm = { fields };
-
-        // this.editModestore.dispatch(EntryModeActions.userAnswered({ form }));
     }
 
     onSubmit(): void {

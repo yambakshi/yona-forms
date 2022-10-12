@@ -1,4 +1,4 @@
-import { EntryModeForm } from "@models/entry-form";
+import { EntryModeForm } from "@models/forms";
 import { createReducer, on } from "@ngrx/store";
 import { EntryModeActions } from "../actions";
 
@@ -15,13 +15,17 @@ const initialState: State = {
 export const reducer = createReducer(
     initialState,
     // Even though the `state` is unused, it helps infer the return type
-    on(EntryModeActions.userSubmitted, (state, { form }) =>
+    // on(EntryModeActions.userSubmitted, (state, { form }) =>
+    //     ({ ...state, forms: [...state.forms, form] })),
+
+    on(EntryModeActions.submitSuccess, (state, { form }) =>
         ({ ...state, forms: [...state.forms, form] })),
 
     on(EntryModeActions.fetch, (state, { id }) => ({
         ...state,
         id
     })),
+
     on(EntryModeActions.fetchSuccess, (state, { forms }) => ({
         ...state,
         forms

@@ -5,10 +5,12 @@ export type EntryModeField = {
     answer: number | string;
 }
 
-export type EditModeField = {
+export class EditModeField {
     label: string;
-    type: FieldType;
-    options?: string[];
+    type: FieldType = FieldType.Number;
+    options?: string[] = [];
+
+    constructor() { }
 }
 
 export class EditModeForm {
@@ -18,7 +20,9 @@ export class EditModeForm {
 }
 
 export class EntryModeForm {
+    id?: number;
     fields: EntryModeField[];
+    created_on?: string;
 
     constructor() { }
 }

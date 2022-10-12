@@ -1,12 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
-import { EntryModeForm } from '@models/entry-form';
-import { FormSchemaField } from '@models/form-schema-field';
-import { select, Store } from '@ngrx/store';
-import { selectEditModeStateValue } from '@store/selectors/edit-mode.selector';
-import { selectEntryModeStateValue } from '@store/selectors/entry-mode.selector';
-import * as fromEditMode from '@store/reducers/edit-mode.reducer';
-import { Observable } from 'rxjs';
 
 
 @Component({
@@ -22,8 +15,6 @@ export class MainViewComponent implements AfterViewInit {
     @ViewChild('headerTabs') headerTabs: ElementRef;
     @ViewChild('tabsLine') tabsLine: ElementRef;
     @ViewChild('sectionBody') sectionBody: ElementRef;
-    // formSchema$: Observable<FormSchemaField[]>;
-    // entryFormSchema$: Observable<EntryModeForm>;
     modesTabs: string[] = [
         'EDIT MODE',
         'ENTRY MODE',
@@ -33,10 +24,7 @@ export class MainViewComponent implements AfterViewInit {
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
-        private renderer: Renderer2,
-        private store: Store<fromEditMode.State>) {
-        // this.formSchema$ = store.pipe(select(selectEditModeStateValue));
-        // this.entryFormSchema$ = store.pipe(select(selectEntryModeStateValue));
+        private renderer: Renderer2) {
     }
 
     ngAfterViewInit(): void {

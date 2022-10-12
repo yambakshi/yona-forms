@@ -1,3 +1,9 @@
 <div #viewModeContainer class="view-mode-container">
-    <div *ngFor="let form of forms" class="form-entry">{{JsonStringify(form.fields)}}</div>
+    <div *ngFor="let form of forms" class="form-entry">
+        <h1 class="form-entry-metadata">{{form.id + ' - ' + form.created_on}}</h1>
+        <div *ngFor="let field of form.fields" class="form-entry-fields">
+            <div class="field-question">{{'Q: ' + field.question}}</div>
+            <div class="field-answer">{{'A: ' + field.answer}}</div>
+        </div>
+    </div>
 </div>

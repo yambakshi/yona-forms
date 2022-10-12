@@ -3,12 +3,10 @@ import { EntryModeForm } from '../../models/form';
 
 
 export async function insertForm(form: EntryModeForm) {
-    const query = `INSERT INTO entry_mode_forms (fields) VALUES ('${JSON.stringify(form.fields)}');`;
-    const res = await postgresql.query(query);
+    const query = `
+        INSERT INTO entry_mode_forms (fields) VALUES ('${JSON.stringify(form.fields)}')
+        RETURNING id,fields,created_on;`;
+    const { rows } = await postgresql.query(query);
 
-    return {
-        success: true,
-        message: 'Successfully added form',
-        data: res
-    };
+    return rows[0];
 }

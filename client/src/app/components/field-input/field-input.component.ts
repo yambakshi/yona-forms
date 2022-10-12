@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Input, Output, EventEmitter, ViewEncapsulation, Inject, PLATFORM_ID, AfterViewChecked } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { FieldType } from '@enums/field-type.enum';
-import { FormSchemaField } from '@models/form-schema-field';
+import { EditModeField } from '@models/forms';
 import { pairwise, startWith } from 'rxjs/operators';
 
 interface DropdownOption {
@@ -26,12 +26,10 @@ interface DropdownOption {
         useExisting: FieldInputComponent
     }]
 })
-export class FieldInputComponent implements ControlValueAccessor, AfterViewChecked {
+export class FieldInputComponent implements ControlValueAccessor {
     @Input() submitted: boolean = false;
-    @Output() fieldChanged: EventEmitter<FormSchemaField> = new EventEmitter<FormSchemaField>();
-    afterViewCheckedEnabled: boolean = true;
     fieldInputForm: FormGroup;
-    field: FormSchemaField = new FormSchemaField();
+    field: EditModeField = new EditModeField();
     fieldTypes: DropdownOption[] = [];
     touched: boolean = false;
     disabled: boolean = false;
@@ -76,10 +74,6 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
         return { min: 1, max: 10 };
     }
 
-    ngAfterViewChecked(): void {
-        if (!isPlatformBrowser(this.platformId) || !this.afterViewCheckedEnabled) return;
-    }
-
     ngOnChanges(): void {
         if (this.submitted) {
             this.fieldInputForm.controls['label'].markAsTouched();
@@ -109,7 +103,6 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
     addOption(): void {
         const fieldControl = this.createOptionControl();
         this.options.push(fieldControl);
-        this.afterViewCheckedEnabled = true;
     }
 
     onTouched = () => { };
@@ -121,13 +114,13 @@ export class FieldInputComponent implements ControlValueAccessor, AfterViewCheck
         }
     }
 
-    onChange = (field: FormSchemaField) => { };
+    onChange = (field: EditModeField) => { };
 
     registerOnChange(onChange: any): void {
         this.onChange = onChange;
     }
 
-    writeValue(field: FormSchemaField) {
+    writeValue(field: EditModeField) {
         if (!field) return;
         const { label, type, options } = field;
         this.fieldInputForm.get('label').setValue(label);

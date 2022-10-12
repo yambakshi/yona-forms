@@ -1,11 +1,7 @@
 import { postgresql } from "../../dal";
 
-export async function queryMultipleForms(ids: string[]) {
-    let query = 'SELECT * FROM entry_mode_forms';
-    if (ids.length > 0) {
-        query += ` WHERE 'id' IN (${ids.join(',')});`;
-    }
-
+export async function queryMultipleForms() {
+    const query = 'SELECT * FROM entry_mode_forms;';
     const { rows } = await postgresql.query(query);
 
     return rows;
