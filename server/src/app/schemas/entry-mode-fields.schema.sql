@@ -1,7 +1,15 @@
-CREATE TABLE IF NOT EXISTS entry_mode_fields(
-    field_id serial PRIMARY KEY,
-    question VARCHAR (80) UNIQUE NOT NULL,
-    answer VARCHAR (50) NOT NULL,
-    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS entry_mode_forms(
+    id serial PRIMARY KEY,
+    fields JSONB NOT NULL,
+    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO
+    entry_mode_forms (q_a)
+VALUES
+    (
+        '[
+            { "questions": "what", "answer": "yes" },
+            { "questions": "what", "answer": "no" }
+        ]'
+    );

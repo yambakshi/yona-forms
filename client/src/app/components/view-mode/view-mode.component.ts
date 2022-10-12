@@ -1,6 +1,9 @@
-import { Component, ElementRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
-import { EntryField } from '@models/entry-field';
-import { FormSchemaField } from '@models/form-schema-field';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { EntryModeForm } from '@models/entry-form';
+import { select, Store } from '@ngrx/store';
+import { EntryModeActions } from '@store/actions';
+import * as fromEntryMode from '@store/reducers/entry-mode.reducer';
+import { selectEntryModeStateValue } from '@store/selectors/entry-mode.selector';
 
 
 @Component({
@@ -14,44 +17,18 @@ import { FormSchemaField } from '@models/form-schema-field';
     encapsulation: ViewEncapsulation.None
 })
 export class ViewModeComponent {
-    @Input() formSchemaStore: FormSchemaField[];
-    @Input() entryFormStore: EntryField[];
     @ViewChild('viewModeContainer') viewModeContainer: ElementRef;
+    forms: EntryModeForm[];
 
     constructor(
-        private renderer: Renderer2) { }
+        private entryModeStore: Store<fromEntryMode.State>) {
+        this.entryModeStore.dispatch(EntryModeActions.fetch({ id: '' }));
+        entryModeStore.pipe(select(selectEntryModeStateValue)).subscribe((forms: EntryModeForm[]) => {
+            this.forms = forms;
+        })
+    }
 
-    ngOnChanges(): void {
-        if (!this.viewModeContainer) return;
-        const stateLogEntry = this.renderer.createElement('div');
-
-        // Date
-        const date = this.renderer.createElement('div');
-        this.renderer.setAttribute(date, 'class', 'state-log-entry-date');
-        this.renderer.setProperty(date, 'innerHTML', new Date());
-
-        // Form entry
-        const formEntry = this.renderer.createElement('div');
-        const formEntryH1 = this.renderer.createElement('h1');
-        const formEntryValue = this.renderer.createElement('div');
-        this.renderer.setProperty(formEntryH1, 'innerHTML', 'Form Entry');
-        this.renderer.setProperty(formEntryValue, 'innerHTML', JSON.stringify(this.entryFormStore));
-        this.renderer.appendChild(formEntry, formEntryH1);
-        this.renderer.appendChild(formEntry, formEntryValue);
-
-        // Form schema
-        const formSchema = this.renderer.createElement('div');
-        const formSchemaH1 = this.renderer.createElement('h1');
-        const formSchemaValue = this.renderer.createElement('div');
-        this.renderer.setProperty(formSchemaH1, 'innerHTML', 'Form Schema');
-        this.renderer.setProperty(formSchemaValue, 'innerHTML', JSON.stringify(this.formSchemaStore));
-        this.renderer.appendChild(formSchema, formSchemaH1);
-        this.renderer.appendChild(formSchema, formSchemaValue);
-
-        this.renderer.setAttribute(stateLogEntry, 'class', 'state-log-entry');
-        this.renderer.appendChild(stateLogEntry, date);
-        this.renderer.appendChild(stateLogEntry, formEntry);
-        this.renderer.appendChild(stateLogEntry, formSchema);
-        this.renderer.appendChild(this.viewModeContainer.nativeElement, stateLogEntry);
+    JsonStringify(object): string {
+        return JSON.stringify(object);
     }
 }

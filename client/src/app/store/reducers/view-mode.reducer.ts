@@ -1,8 +1,8 @@
 import { EntryModeForm } from "@models/entry-form";
 import { createReducer, on } from "@ngrx/store";
-import { EntryModeActions } from "../actions";
+import { ViewModeActions } from "../actions";
 
-export const entryModeFeatureKey = 'entryMode';
+export const viewModeFeatureKey = 'viewMode';
 
 export interface State {
     forms: EntryModeForm[];
@@ -15,17 +15,21 @@ const initialState: State = {
 export const reducer = createReducer(
     initialState,
     // Even though the `state` is unused, it helps infer the return type
-    on(EntryModeActions.userSubmitted, (state, { form }) =>
-        ({ ...state, forms: [...state.forms, form] })),
+    on(ViewModeActions.entryModeFormAdded, (state, { form }) => {
+        state.forms.push(form);
+        return state;
+    }),
 
-    on(EntryModeActions.fetch, (state, { id }) => ({
+    // Fetch
+
+    on(ViewModeActions.fetch, (state, { id }) => ({
         ...state,
         id
     })),
-    on(EntryModeActions.fetchSuccess, (state, { forms }) => ({
+    on(ViewModeActions.fetchSuccess, (state, { forms }) => ({
         ...state,
         forms
     }))
 );
 
-export const selectEntryModeValue = (state: State) => state.forms;
+export const selectViewModeValue = (state: State) => state.forms;

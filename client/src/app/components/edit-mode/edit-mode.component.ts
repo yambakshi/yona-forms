@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { pairwise, startWith } from 'rxjs/operators';
 import { FormSchemaField } from '@models/form-schema-field';
-import { FormsApiService } from '@services/forms-api.service';
-import { ApiResponse } from '@models/api-response';
+import { EditModeForm } from '@models/forms';
 import { Store } from '@ngrx/store';
 import { EditModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';
@@ -25,9 +23,7 @@ export class EditModeComponent implements OnInit {
 
     constructor(
         private store: Store<fromEditMode.State>,
-        private formsApiService: FormsApiService,
         private formBuilder: FormBuilder) {
-        this.store.dispatch(EditModeActions.fetch({ query: '' }));
     }
 
     get fields(): FormArray {
@@ -48,12 +44,12 @@ export class EditModeComponent implements OnInit {
             fields: this.formBuilder.array(fields.map(field => this.createFieldControl(field)))
         })
 
-        this.formSchemaForm.valueChanges.pipe(
-            startWith({ fields }),
-            pairwise()
-        ).subscribe(([prev, next]) => {
-            this.store.dispatch(EditModeActions.userModifiedSchema(next));
-        })
+        // this.formSchemaForm.valueChanges.pipe(
+        //     startWith({ fields }),
+        //     pairwise()
+        // ).subscribe(([prev, next]) => {
+        //     this.store.dispatch(EditModeActions.userModifiedSchema(next));
+        // })
     }
 
     getFieldName(i: number): string {
@@ -83,10 +79,13 @@ export class EditModeComponent implements OnInit {
     onSubmit(): void {
         this.submitted = true;
         if (this.formSchemaForm.invalid) return;
-        this.showLoader = true;
-        this.formsApiService.addFormSchema(this.formSchemaForm.value.fields).subscribe((res: ApiResponse) => {
-            this.showLoader = false;
-            if (!res) return;
-        })
+        // this.showLoader = true;
+        // this.formsApiService.addFormSchema(this.formSchemaForm.value.fields).subscribe((res: ApiResponse) => {
+        //     this.showLoader = false;
+        //     if (!res) return;
+        // })
+
+        const form: EditModeForm = { fields: this.formSchemaForm.value.fields };
+        this.store.dispatch(EditModeActions.userSubmitted({ form }));
     }
 }

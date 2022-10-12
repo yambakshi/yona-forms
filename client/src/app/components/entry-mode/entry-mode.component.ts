@@ -1,14 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, Input, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, Inject, Input, PLATFORM_ID, SimpleChange, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { EntryField } from '@models/entry-field';
+import { EntryModeForm } from '@models/entry-form';
 import { FormSchemaField } from '@models/form-schema-field';
-import { Store } from '@ngrx/store';
-import { FormsApiService } from '@services/forms-api.service';
+import { select, Store } from '@ngrx/store';
 import { EntryModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';
-import { Subscription } from 'rxjs';
-import { pairwise, startWith } from 'rxjs/operators';
+import * as fromEntryMode from '@store/reducers/entry-mode.reducer';
+import { selectEditModeStateValue } from '@store/selectors/edit-mode.selector';
 
 
 @Component({
@@ -21,21 +20,37 @@ import { pairwise, startWith } from 'rxjs/operators';
     ]
 })
 export class EntryModeComponent {
-    @Input() formSchemaStore: FormSchemaField[];
-    @Input() entryFormStore: EntryField[];
+    // @Input() formSchema: FormSchemaField[];
+    // @Input() entryFormSchema: EntryModeForm;
     @ViewChild('form') ngEntryForm: NgForm;
     submitted: boolean = false;
     entryForm: FormGroup;
     showLoader: boolean = false;
-    entryFormChanges: Subscription;
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
-        private store: Store<fromEditMode.State>,
-        private formsApiService: FormsApiService,
+        private editModeStore: Store<fromEditMode.State>,
+        private entryModeStore: Store<fromEntryMode.State>,
         private formBuilder: FormBuilder) {
         this.entryForm = this.formBuilder.group({
             entryFields: this.formBuilder.array([])
+        })
+
+        this.editModeStore.pipe(select(selectEditModeStateValue)).subscribe(formSchema => {
+            if (this.ngEntryForm) {
+                this.ngEntryForm.resetForm();
+            }
+
+            const entryFieldsGroups = formSchema.fields.map(({ label, type, options }, i) => {
+                const entryFieldGroup = this.formBuilder.group({
+                    metadata: [{ label, type, options }, []],
+                    answer: ['', Validators.required],
+                })
+
+                return entryFieldGroup;
+            })
+
+            this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
         })
     }
 
@@ -43,33 +58,35 @@ export class EntryModeComponent {
         return this.entryForm.get('entryFields') as FormArray;
     }
 
-    ngOnChanges() {
-        if (!isPlatformBrowser(this.platformId)) return;
+    ngOnChanges(changes: SimpleChange) {
+        // if (!isPlatformBrowser(this.platformId) || changes['entryFormSchema']) return;
 
-        if (this.ngEntryForm) {
-            this.entryFormChanges.unsubscribe();
-            this.ngEntryForm.resetForm();
-        }
+        // if (this.ngEntryForm) {
+        //     this.ngEntryForm.resetForm();
+        // }
 
-        const entryFieldsGroups = this.formSchemaStore.map(({ label, type, options }, i) => {
-            const answer = this.entryFormStore[i] && this.entryFormStore[i].answer;
-            const entryFieldGroup = this.formBuilder.group({
-                metadata: [{ label, type, options }, []],
-                answer: [answer, Validators.required],
-            })
+        // const entryFieldsGroups = this.formSchema.map(({ label, type, options }, i) => {
+        //     const answer = this.entryFormSchema[i] && this.entryFormSchema[i].answer;
+        //     const entryFieldGroup = this.formBuilder.group({
+        //         metadata: [{ label, type, options }, []],
+        //         answer: [answer, Validators.required],
+        //     })
 
-            return entryFieldGroup;
-        })
+        //     return entryFieldGroup;
+        // })
 
-        this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
+        // this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
+    }
 
-        this.entryFormChanges = this.entryForm.valueChanges.pipe(
-            startWith([]),
-            pairwise()
-        ).subscribe(([prev, next]) => {
-            const fields = next.entryFields.map(({ metadata, answer }) => ({ question: metadata.label, answer }));
-            this.store.dispatch(EntryModeActions.userAnswered({ fields }));
-        })
+    onInput(): void {
+        // const fields = this.entryFields.controls.map(control => {
+        //     const { metadata, answer } = control.value;
+        //     return { question: metadata.label, answer };
+        // });
+
+        // const form: EntryModeForm = { fields };
+
+        // this.editModestore.dispatch(EntryModeActions.userAnswered({ form }));
     }
 
     onSubmit(): void {
@@ -78,6 +95,13 @@ export class EntryModeComponent {
             return;
         }
 
-        console.log(JSON.stringify(this.entryForm.value))
+        const fields = this.entryFields.controls.map(control => {
+            const { metadata, answer } = control.value;
+            return { question: metadata.label, answer };
+        });
+
+        const form: EntryModeForm = { fields };
+
+        this.entryModeStore.dispatch(EntryModeActions.userSubmitted({ form }));
     }
 }

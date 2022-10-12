@@ -1,19 +1,19 @@
 .view-mode-container {
     width: 900px;
 
-    > .state-log-entry {
+    > .form-entry {
         position: relative;
         font-size: 18px;
         padding: 20px 0;
         width: 100%;
 
-        > .state-log-entry-date {
-            color: pink;
-        }
+        // > .state-log-entry-date {
+        //     color: pink;
+        // }
 
-        & h1 {
-            margin: 10px 0;
-        }
+        // & h1 {
+        //     margin: 10px 0;
+        // }
 
         &:after {
             content: "";

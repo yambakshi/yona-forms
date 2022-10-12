@@ -1,2 +1,3 @@
 <div #viewModeContainer class="view-mode-container">
+    <div *ngFor="let form of forms" class="form-entry">{{JsonStringify(form.fields)}}</div>
 </div>

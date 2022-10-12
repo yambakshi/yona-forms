@@ -1,21 +1,16 @@
-import { FormSchemaField } from '@models/form-schema-field';
+import { EditModeForm } from '@models/forms';
 import { createAction, props } from '@ngrx/store';
 
-export const userModifiedSchema = createAction(
-    '[Edit Mode] User Modified Schema',
-    props<{ fields: FormSchemaField[] }>());
+export const userSubmitted = createAction(
+    '[Edit Mode] User Submitted',
+    props<{ form: EditModeForm }>());
 
-export const fetch = createAction(
-    '[Form Schema/API] Fetch Is Needed',
-    props<{ query: string }>()
+export const submitSuccess = createAction(
+    '[Edit Mode] Submit Success',
+    props<{ form: EditModeForm }>()
 );
 
-export const fetchSuccess = createAction(
-    '[Form Schema/API] Fetch Success',
-    props<{ fields: FormSchemaField[] }>()
-);
-
-export const fetchFailure = createAction(
-    '[Form Schema/API] Fetch Failure',
+export const submitFailure = createAction(
+    '[Edit Mode] Submit Failure',
     props<{ errorMsg: string }>()
 );

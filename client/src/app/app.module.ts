@@ -38,7 +38,8 @@ import { ViewModeComponent } from '@components/view-mode/view-mode.component';
 
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { EffectsModule } from '@ngrx/effects';
-import { EditModeEffects } from '@store/effects/edit-mode.effects';
+import { EntryModeEffects } from '@store/effects/entry-mode.effects';
+import { ViewModeEffects } from '@store/effects/view-mode.effects';
 
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -87,7 +88,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
       // In a production build you would want to disable the Store Devtools
       // logOnly: environment.production,
     }),
-    EffectsModule.forRoot([EditModeEffects]),
+    EffectsModule.forRoot([EntryModeEffects, ViewModeEffects]),
   ],
   providers: [
     RouterService,
