@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { FieldType } from '@enums/field-type.enum';
 import { EditModeField } from '@models/edit-mode-field';
@@ -34,7 +34,6 @@ export class FieldInputComponent implements ControlValueAccessor {
     disabled: boolean = false;
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
         private formBuilder: FormBuilder) {
         this.fieldTypes = Object.entries(FieldType).map(([k, v]) => ({
             value: v,

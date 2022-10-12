@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { EntryModeForm } from '@models/entry-mode-form';
 import { select, Store } from '@ngrx/store';
@@ -24,7 +24,6 @@ export class EntryModeComponent {
     showLoader: boolean = false;
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
         private editModeStore: Store<fromEditMode.State>,
         private entryModeStore: Store<fromEntryMode.State>,
         private formBuilder: FormBuilder) {
