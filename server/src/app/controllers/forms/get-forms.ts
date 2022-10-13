@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { queryMultipleForms } from '../../services';
+import { queryAllForms } from '../../services';
 import { logger } from '../../../config';
 
 
 export async function getForms(req: Request, res: Response) {
     try {
         logger.info({ message: "Received 'getForms' request", label: 'getForms' });
-        const output = await queryMultipleForms();
+        const output = await queryAllForms();
         res.send(output);
     } catch (error: any) {
         logger.error({ message: error.message, label: 'getForms' });
