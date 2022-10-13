@@ -16,8 +16,12 @@ export const reducer = createReducer(
     initialState,
     // Even though the `state` is unused, it helps infer the return type
 
+    // SUBMIT
+
     on(EntryModeActions.submitSuccess, (state, { form }) =>
         ({ ...state, forms: [...state.forms, form] })),
+
+    // FETCH
 
     on(EntryModeActions.fetch, (state, { id }) => ({
         ...state,

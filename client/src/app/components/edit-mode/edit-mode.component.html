@@ -20,10 +20,7 @@
             </h1>
         </div>
         <div class="edit-mode-form-footer">
-            <div *ngIf="showLoader" class="loader-container">
-                <spinning-loader></spinning-loader>
-            </div>
-            <button mat-button type="submit" class="save-button" [disabled]="showLoader">
+            <button mat-button type="submit" class="save-button">
                 <div class="save-button-content">Save<mat-icon>done</mat-icon>
                 </div>
             </button>

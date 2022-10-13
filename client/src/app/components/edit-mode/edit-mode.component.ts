@@ -19,7 +19,6 @@ import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 export class EditModeComponent implements OnInit {
     submitted: boolean = false;
     formSchemaForm: FormGroup;
-    showLoader: boolean = false;
 
     constructor(
         private store: Store<fromEditMode.State>,

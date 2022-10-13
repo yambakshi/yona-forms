@@ -6,6 +6,7 @@ import { EntryModeActions } from '@store/actions';
 import * as fromEditMode from '@store/reducers/edit-mode.reducer';
 import * as fromEntryMode from '@store/reducers/entry-mode.reducer';
 import { selectEditModeStateValue } from '@store/selectors/edit-mode.selector';
+import { selectEntryModeStateValue } from '@store/selectors/entry-mode.selector';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class EntryModeComponent {
                 this.ngEntryForm.resetForm();
             }
 
-            const entryFieldsGroups = formSchema.fields.map(({ label, type, options }, i) => {
+            const entryFieldsGroups = formSchema.fields.map(({ label, type, options }) => {
                 const entryFieldGroup = this.formBuilder.group({
                     metadata: [{ label, type, options }, []],
                     answer: ['', Validators.required],
@@ -46,6 +47,10 @@ export class EntryModeComponent {
             })
 
             this.entryForm.setControl('entryFields', this.formBuilder.array(entryFieldsGroups));
+        })
+
+        this.entryModeStore.pipe(select(selectEntryModeStateValue)).subscribe(entryForms => {
+            this.showLoader = false
         })
     }
 
@@ -66,6 +71,7 @@ export class EntryModeComponent {
 
         const form: EntryModeForm = { fields };
 
+        this.showLoader = true;
         this.entryModeStore.dispatch(EntryModeActions.userSubmitted({ form }));
     }
 }
