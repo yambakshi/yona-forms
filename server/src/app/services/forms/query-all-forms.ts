@@ -6,14 +6,13 @@ export async function queryAllForms() {
         INNER JOIN entry_mode_fields field ON form.id = field.fk_form`;
     const { rows } = await postgresql.query(query);
 
-    const forms = rows.reduce((acc, { fk_form, question, answer, created_on }) => {
-        if (!acc[fk_form]) {
-            acc[fk_form] = { id: fk_form, created_on };
-            acc[fk_form].fields = [];
+    const forms = rows.reduce((forms, { fk_form, question, answer, created_on }) => {
+        if (!forms[fk_form]) {
+            forms[fk_form] = { id: fk_form, fields: [], created_on };
         }
 
-        acc[fk_form].fields.push({ question, answer });
-        return acc;
+        forms[fk_form].fields.push({ question, answer });
+        return forms;
     }, {});
 
     return Object.values(forms);
