@@ -1,4 +1,12 @@
-# YonaForms
+# Yona Forms - Client
+
+## Technologies
+
+This project was generated with:
+- [Angular CLI](https://github.com/angular/angular-cli) 12.2.18
+- Typescript 4.3.5
+- NodeJS 12.14.1
+- NPM 6.13.4
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.10.
 
@@ -13,6 +21,14 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Deploy
+Run client:
+```
+cd /var/www/html/yona-forms/client
+pm2 start dist/yona-forms/server/main.js --name client
+tail -f ~/.pm2/logs/main-error.log
+```
 
 ## Running unit tests
 
