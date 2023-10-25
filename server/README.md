@@ -43,6 +43,11 @@ This project was generated with:
   );
   ```
 
+- **Truncate Tables**
+  ```
+  TRUNCATE entry_mode_forms, entry_mode_fields;
+  ```
+
 - **Drop Table**
   ```
   DROP TABLE entry-mode-forms;
